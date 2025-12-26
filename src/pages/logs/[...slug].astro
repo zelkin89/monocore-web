@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import LogLayout from '../../layouts/LogLayout.astro';
+import { openModal } from '../../store/modalStore';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('logs');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+
+const post = Astro.props;
+const { Content } = await post.render();
+
+const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString('it-IT', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+};
+---
+
+<LogLayout title={post.data.title} description={post.data.description}>
+	
+    <div class="max-w-2xl mx-auto px-6">
+        
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 font-mono text-xs text-industrial/40 mb-8 uppercase tracking-widest">
+            <a href="/logs" class="hover:text-brand-orange transition-colors">LOGS</a>
+            <span>/</span>
+            <span class="text-brand-orange">{post.data.category}</span>
+        </nav>
+
+        <!-- Article Header -->
+        <header class="mb-12 border-b border-white/10 pb-12">
+            <h1 class="font-sans font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tighter mb-6 leading-[1.1]">
+                {post.data.title}
+            </h1>
+            
+            <div class="flex flex-wrap items-center gap-6 font-mono text-xs text-industrial/60 uppercase tracking-wide">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-brand-orange rounded-full"></span>
+                    {formatDate(post.data.pubDate)}
+                </div>
+                <div>
+                    // AUTH: {post.data.author}
+                </div>
+                <div class="text-brand-orange">
+                    READ_TIME: 5 MIN
+                </div>
+            </div>
+        </header>
+
+        <!-- Article Content -->
+        <!-- Prose config: White text, Orange accents, Tech/Mono fonts where applicable -->
+        <article class="prose prose-invert prose-lg max-w-none 
+            prose-headings:font-sans prose-headings:uppercase prose-headings:tracking-tight prose-headings:text-white prose-headings:font-bold
+            prose-p:text-industrial/80 prose-p:font-mono prose-p:text-base prose-p:leading-relaxed
+            prose-strong:text-white prose-strong:font-bold
+            prose-a:text-brand-orange prose-a:no-underline hover:prose-a:underline
+            prose-li:text-industrial/80 prose-li:font-mono
+            prose-blockquote:border-l-brand-orange prose-blockquote:bg-white/5 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:not-italic prose-blockquote:text-industrial/90
+            mb-24
+        ">
+            <Content />
+        </article>
+
+        <!-- Conversion Trap (Sticky Bottom CTA) -->
+        <div class="border border-brand-orange/30 bg-brand-orange/5 p-6 md:p-8 rounded-sm text-center space-y-6">
+            <p class="font-mono text-sm text-brand-orange uppercase tracking-wide">
+                Hai letto il protocollo? Installa il sistema.
+            </p>
+            <h3 class="font-sans font-bold text-2xl text-white uppercase tracking-tight">
+                Sei compatibile con Monocore?
+            </h3>
+            <button 
+                onclick="window.openModal()"
+                class="inline-block bg-brand-orange text-void font-bold font-sans uppercase px-8 py-4 rounded-sm hover:bg-white transition-colors tracking-widest cursor-pointer"
+            >
+                VERIFICA COMPATIBILITÀ
+            </button>
+        </div>
+
+    </div>
+
+</LogLayout>
+
+<script>
+    import { openModal } from '../../store/modalStore';
+    
+    // Assegna la funzione a window per poterla chiamare dall'onclick inline (opzionale, meglio event listener)
+    // Ma in Astro con script module, lo scope è isolato.
+    // Metodo migliore: Event Listener
+    
+    const ctaAndBtns = document.querySelectorAll('button');
+    ctaAndBtns.forEach(btn => {
+        if(btn.textContent?.includes('VERIFICA COMPATIBILITÀ')) {
+            btn.addEventListener('click', () => openModal());
+        }
+    });
+
+    // Esposizione per sicurezza (pattern brute-force se il DOM tarda)
+    (window as any).openModal = openModal;
+</script>

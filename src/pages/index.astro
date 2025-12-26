@@ -1,0 +1,52 @@
+---
+import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
+import TheProblem from '../components/TheProblem';
+import TheEnemies from '../components/TheEnemies';
+import TheSolution from '../components/TheSolution';
+import TheModules from '../components/TheModules';
+import CompatibilityProtocol from '../components/CompatibilityProtocol';
+import TheExecution from '../components/TheExecution';
+import FAQ from '../components/FAQ';
+import WhoIsItFor from '../components/WhoIsItFor';
+import TheFinalCta from '../components/TheFinalCta';
+import Footer from '../components/Footer';
+import CompatibilityModal from '../components/CompatibilityModal';
+import '../styles/global.css';
+---
+
+<html lang="it" class="scroll-smooth">
+    <head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>MONOCORE™ | The Central Operating System</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+	</head>
+    <body class="bg-void text-industrial antialiased selection:bg-brand-orange selection:text-void">
+        
+        <Navbar client:load />
+        
+        <main>
+            <Hero client:load />
+            <TheProblem client:visible />
+            <TheEnemies client:visible />
+            <TheSolution client:visible />
+            <TheModules client:visible />
+            <CompatibilityProtocol client:visible />
+            <TheExecution client:visible />
+            <FAQ client:visible />
+            <WhoIsItFor client:visible />
+            <TheFinalCta client:visible />
+        </main>
+
+        <Footer />
+
+        <!-- Global Compatibility Modal -->
+        <CompatibilityModal client:load />
+
+    </body>
+</html>
