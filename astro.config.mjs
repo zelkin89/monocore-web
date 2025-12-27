@@ -9,4 +9,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
     site: 'https://monocore.it',
     integrations: [react(), tailwind(), sitemap()],
+    build: {
+        inlineStylesheets: 'auto',
+    }
 });

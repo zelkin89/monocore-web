@@ -4,6 +4,11 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import CompatibilityModal from '../components/CompatibilityModal';
 import '../styles/global.css';
+import '@fontsource/space-grotesk/400.css';
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/700.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
 
 const { title, description } = Astro.props;
 ---
@@ -16,9 +21,6 @@ const { title, description } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
         <meta name="description" content={description} />
 		<title>{title} | MONOCORE™ LOGS</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
         <ViewTransitions />
 	</head>
 	<body class="bg-void text-industrial antialiased selection:bg-brand-orange selection:text-void">
