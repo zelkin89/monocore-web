@@ -5,10 +5,15 @@ import { openModal } from '../store/modalStore';
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isHome, setIsHome] = useState(true);
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 50);
         window.addEventListener('scroll', handleScroll);
+
+        // Controllo se siamo in homepage
+        setIsHome(window.location.pathname === '/' || window.location.pathname === '');
+
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
@@ -19,11 +24,20 @@ const Navbar = () => {
         { name: 'FAQ', href: '#faq' },
     ];
 
+    // Helper per gestire i link dinamicamente
+    const getLink = (href: string) => {
+        // Se è già un link assoluto o esterno, lo ritorno così com'è
+        if (href.startsWith('/')) return href;
+        // Se sono in home, uso l'ancora semplice (#id) per smooth scroll
+        if (isHome) return href;
+        // Altrimenti forzo il reload tornando alla root (/#id)
+        return `/${href}`;
+    };
+
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-void/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
             }`}>
             <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                {/* Logo */}
                 {/* Logo */}
                 <a href="/" className="flex items-center gap-2 group">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-brand-orange">
@@ -42,7 +56,7 @@ const Navbar = () => {
                     {navLinks.map((link) => (
                         <a
                             key={link.name}
-                            href={link.href}
+                            href={getLink(link.href)}
                             className="font-mono text-sm text-industrial/70 hover:text-brand-orange transition-colors uppercase tracking-wide"
                         >
                             {link.name}
@@ -75,7 +89,7 @@ const Navbar = () => {
                     {navLinks.map((link) => (
                         <a
                             key={link.name}
-                            href={link.href}
+                            href={getLink(link.href)}
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="font-sans text-lg font-bold text-industrial hover:text-brand-orange"
                         >
