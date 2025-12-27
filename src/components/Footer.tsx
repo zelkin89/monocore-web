@@ -8,9 +8,9 @@ const Footer = () => {
 
                     {/* Logo & Tagline */}
                     <div className="text-center md:text-left space-y-2">
-                        <h4 className="font-sans font-bold text-lg text-industrial/40 tracking-tight uppercase">
+                        <div className="font-sans font-bold text-lg text-industrial/40 tracking-tight uppercase">
                             MONOCORE™ — The Central Operating System
-                        </h4>
+                        </div>
                     </div>
 
                     {/* Links */}

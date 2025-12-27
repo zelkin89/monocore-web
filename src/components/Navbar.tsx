@@ -78,6 +78,7 @@ const Navbar = () => {
                 <button
                     className="md:hidden text-industrial"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label="Menu di navigazione"
                 >
                     {isMobileMenuOpen ? <X /> : <Menu />}
                 </button>
