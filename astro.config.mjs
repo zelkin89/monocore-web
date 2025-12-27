@@ -10,6 +10,18 @@ export default defineConfig({
     site: 'https://monocore.it',
     integrations: [react(), tailwind(), sitemap()],
     build: {
-        inlineStylesheets: 'auto',
+        inlineStylesheets: 'always',
+    },
+    vite: {
+        build: {
+            rollupOptions: {
+                output: {
+                    manualChunks: {
+                        'react-vendor': ['react', 'react-dom', 'framer-motion'],
+                        'ui-vendor': ['lucide-react']
+                    }
+                }
+            }
+        }
     }
 });
